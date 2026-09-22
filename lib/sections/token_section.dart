@@ -13,58 +13,95 @@ class TokenSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFF111111),
+      color: kOffWhite,
       padding: EdgeInsets.symmetric(
         horizontal: isWide ? 60 : 24,
         vertical: 80,
       ),
-      child: isWide
-          ? Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(flex: 5, child: _TokenLeft()),
-                const SizedBox(width: 60),
-                Expanded(flex: 4, child: _CoinRight()),
-              ],
-            )
-          : Column(
-              children: [
-                _TokenLeft(),
-                const SizedBox(height: 48),
-                _CoinRight(),
-              ],
-            ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Top Row: Token Overview & Coin Mascot
+          isWide
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Expanded(flex: 5, child: _TokenLeft()),
+                    SizedBox(width: 60),
+                    Expanded(flex: 4, child: _CoinRight()),
+                  ],
+                )
+              : Column(
+                  children: const [
+                    _TokenLeft(),
+                    SizedBox(height: 48),
+                    _CoinRight(),
+                  ],
+                ),
+
+          const SizedBox(height: 60),
+          Divider(color: kBorderColor),
+          const SizedBox(height: 50),
+
+          // Token Utility Section
+          _TokenUtilitySection(isWide: isWide),
+
+          const SizedBox(height: 60),
+          Divider(color: kBorderColor),
+          const SizedBox(height: 50),
+
+          // Tokenomics Section
+          _TokenomicsSection(isWide: isWide),
+        ],
+      ),
     );
   }
 }
 
 class _TokenLeft extends StatelessWidget {
-  static const _contractAddress = '0x6C4e9893C3EA05594e5cf26E7B813a07a2B564B0';
+  const _TokenLeft();
+  static const _contractAddress = '0x04f0a170F95Bf48f3DA756ab9684068CcDa6485D';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        sectionLabel('TOKEN'),
+        yellowDivider(),
         _TokenHeaderLogo(contractAddress: _contractAddress),
+        const SizedBox(height: 16),
+        Text(
+          '\$DEGO is the native community token of the DEGOPLAY ecosystem.\nThe token is designed to support participation within the ecosystem rather than relying solely on speculation.',
+          style: GoogleFonts.inter(
+            fontSize: 15,
+            color: kTextMuted,
+            height: 1.6,
+          ),
+        ),
         const SizedBox(height: 28),
+
         _TokenRow(
-          imageAsset: 'assets/images/shrek.png',
-          label: 'Contract Address',
-          value: '${_contractAddress.substring(0, 12)}...${_contractAddress.substring(_contractAddress.length - 6)}',
+          icon: '💼',
+          label: 'BSC Wallet / Contract',
+          value: '${_contractAddress.substring(0, 10)}...${_contractAddress.substring(_contractAddress.length - 6)}',
           isAddress: true,
           fullText: _contractAddress,
         ),
-        const Divider(color: Colors.white10, height: 32),
-        _TokenRow(
-          imageAsset: 'assets/images/shrek2.png',
+        Divider(color: kBorderColor, height: 28),
+        const _TokenRow(
+          icon: '⛓️',
           label: 'Network',
-          value: 'BNB Chain',
+          value: 'BNB Chain (BEP-20)',
         ),
-        const Divider(color: Colors.white10, height: 32),
+        Divider(color: kBorderColor, height: 28),
+        const _TokenRow(
+          icon: '🔢',
+          label: 'Decimals',
+          value: '18',
+        ),
+        Divider(color: kBorderColor, height: 28),
         _DexRow(),
-        const Divider(color: Colors.white10, height: 32),
-        _ChartRow(),
       ],
     );
   }
@@ -90,9 +127,9 @@ class _TokenHeaderLogoState extends State<_TokenHeaderLogo> {
         SnackBar(
           content: Text(
             'Contract address copied to clipboard!',
-            style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: Colors.black),
+            style: GoogleFonts.inter(fontWeight: FontWeight.w600, color: Colors.white),
           ),
-          backgroundColor: kYellow,
+          backgroundColor: kPurple,
           duration: const Duration(seconds: 2),
           behavior: SnackBarBehavior.floating,
         ),
@@ -111,13 +148,13 @@ class _TokenHeaderLogoState extends State<_TokenHeaderLogo> {
       child: GestureDetector(
         onTap: _copy,
         child: AnimatedScale(
-          scale: _hovered ? 1.04 : 1.0,
+          scale: _hovered ? 1.03 : 1.0,
           duration: const Duration(milliseconds: 180),
           alignment: Alignment.centerLeft,
           child: Tooltip(
-            message: _copied ? 'Copied!' : 'Click to copy contract address',
+            message: _copied ? 'Copied!' : 'Click to copy \$DEGO contract address',
             child: SizedBox(
-              height: 76,
+              height: 70,
               child: Image.asset(
                 'assets/images/open.png',
                 fit: BoxFit.contain,
@@ -132,14 +169,14 @@ class _TokenHeaderLogoState extends State<_TokenHeaderLogo> {
 }
 
 class _TokenRow extends StatelessWidget {
-  final String imageAsset;
+  final String icon;
   final String label;
   final String value;
   final bool isAddress;
   final String? fullText;
 
   const _TokenRow({
-    required this.imageAsset,
+    required this.icon,
     required this.label,
     required this.value,
     this.isAddress = false,
@@ -151,31 +188,24 @@ class _TokenRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Text(icon, style: const TextStyle(fontSize: 20)),
+        const SizedBox(width: 14),
         SizedBox(
-          width: 44,
-          height: 44,
-          child: Image.asset(imageAsset, fit: BoxFit.contain),
-        ),
-        const SizedBox(width: 16),
-        SizedBox(
-          width: 150,
+          width: 140,
           child: Text(
             label,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              color: Colors.white54,
-              fontWeight: FontWeight.w500,
-            ),
+            style: GoogleFonts.inter(fontSize: 14, color: kTextMuted),
           ),
         ),
         Expanded(
           child: Text(
             value,
-            style: GoogleFonts.robotoMono(
-              fontSize: 13,
-              color: isAddress ? kYellow : kWhite,
-              fontWeight: FontWeight.w500,
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: isAddress ? kPurple : kTextDark,
             ),
+            overflow: TextOverflow.ellipsis,
           ),
         ),
         if (isAddress && fullText != null) ...[
@@ -191,24 +221,25 @@ class _DexRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const Text('📊', style: TextStyle(fontSize: 20)),
+        const SizedBox(width: 14),
         SizedBox(
-          width: 44,
-          height: 44,
-          child: Image.asset('assets/images/shrek3.png', fit: BoxFit.contain),
-        ),
-        const SizedBox(width: 16),
-        SizedBox(
-          width: 150,
+          width: 140,
           child: Text(
             'DEX Links',
-            style: GoogleFonts.inter(fontSize: 14, color: Colors.white54),
+            style: GoogleFonts.inter(fontSize: 14, color: kTextMuted),
           ),
         ),
-        _DexChip('PancakeSwap', '🥞', url: 'https://dexscreener.com/bsc/0xf471d46afdc6b29726d6e32e81b6ccc604f48129'),
-        const SizedBox(width: 10),
-        _DexChip('DexScreener', '📊', url: 'https://dexscreener.com/bsc/0xf471d46afdc6b29726d6e32e81b6ccc604f48129'),
+        Wrap(
+          spacing: 10,
+          runSpacing: 8,
+          children: const [
+            _DexChip('PancakeSwap', '🥞', url: 'https://dexscreener.com/bsc/0xad9684bc26780176fcb39b0d6749904a5dc2f3dc'),
+            _DexChip('DexScreener', '📈', url: 'https://dexscreener.com/bsc/0xad9684bc26780176fcb39b0d6749904a5dc2f3dc'),
+            _DexChip('BscScan', '⛓️', url: 'https://bscscan.com/address/0x04f0a170F95Bf48f3DA756ab9684068CcDa6485D'),
+          ],
+        ),
       ],
     );
   }
@@ -243,11 +274,18 @@ class _DexChipState extends State<_DexChip> {
           duration: const Duration(milliseconds: 180),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: _hovered ? kYellow.withOpacity(0.15) : kDarkGray,
+            color: _hovered ? kPurpleSoft : kWhite,
             borderRadius: BorderRadius.circular(6),
             border: Border.all(
-              color: _hovered ? kYellow.withOpacity(0.5) : Colors.white12,
+              color: _hovered ? kPurple : kBorderColor,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.02),
+                blurRadius: 4,
+                offset: const Offset(0, 1),
+              ),
+            ],
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -259,67 +297,13 @@ class _DexChipState extends State<_DexChip> {
                 style: GoogleFonts.inter(
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
-                  color: _hovered ? kYellow : Colors.white70,
+                  color: _hovered ? kPurpleDark : kTextDark,
                 ),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _ChartRow extends StatefulWidget {
-  @override
-  State<_ChartRow> createState() => _ChartRowState();
-}
-
-class _ChartRowState extends State<_ChartRow> {
-  bool _hovered = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 44,
-          height: 44,
-          child: Image.asset('assets/images/shrek4.png', fit: BoxFit.contain),
-        ),
-        const SizedBox(width: 16),
-        SizedBox(
-          width: 150,
-          child: Text(
-            'Chart',
-            style: GoogleFonts.inter(fontSize: 14, color: Colors.white54),
-          ),
-        ),
-        MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onEnter: (_) => setState(() => _hovered = true),
-          onExit: (_) => setState(() => _hovered = false),
-          child: GestureDetector(
-            onTap: () => openUrl('https://dexscreener.com/bsc/0xf471d46afdc6b29726d6e32e81b6ccc604f48129'),
-            child: Row(
-              children: [
-                Text('↗ ', style: TextStyle(color: _hovered ? kYellow : Colors.white54, fontSize: 14)),
-                Text(
-                  'View Chart',
-                  style: GoogleFonts.inter(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: _hovered ? kYellow : Colors.white54,
-                    decoration: TextDecoration.underline,
-                    decorationColor: _hovered ? kYellow : Colors.white30,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
@@ -346,10 +330,13 @@ class _CopyIconBtnState extends State<_CopyIconBtn> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _copy,
-      child: Icon(
-        _copied ? Icons.check : Icons.copy_rounded,
-        color: _copied ? Colors.greenAccent : Colors.white38,
-        size: 16,
+      child: MouseRegion(
+        cursor: SystemMouseCursors.click,
+        child: Icon(
+          _copied ? Icons.check_circle_rounded : Icons.copy_rounded,
+          color: _copied ? Colors.green : kTextMuted,
+          size: 18,
+        ),
       ),
     );
   }
@@ -371,7 +358,7 @@ class _CoinRight extends StatelessWidget {
             borderRadius: BorderRadius.circular(110),
             gradient: RadialGradient(
               colors: [
-                kYellow.withOpacity(0.22),
+                kPurple.withOpacity(0.18),
                 Colors.transparent,
               ],
             ),
@@ -385,6 +372,315 @@ class _CoinRight extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _TokenUtilitySection extends StatelessWidget {
+  final bool isWide;
+  const _TokenUtilitySection({required this.isWide});
+
+  static const _utilities = [
+    {
+      'icon': '🎁',
+      'title': 'Community Rewards',
+      'desc': 'Reward community members for approved contributions, creative tasks, and activities.',
+    },
+    {
+      'icon': '🔑',
+      'title': 'Ecosystem Access',
+      'desc': 'Use tokens for selected features, exclusive events, digital experiences, or future products.',
+    },
+    {
+      'icon': '🗳️',
+      'title': 'Community Participation',
+      'desc': 'Token holders can participate in eligible community initiatives and governance proposals.',
+    },
+    {
+      'icon': '🎮',
+      'title': 'Digital Experiences',
+      'desc': 'Future DEGOPLAY games, products, and decentralized tools may integrate \$DEGO directly.',
+    },
+    {
+      'icon': '🤝',
+      'title': 'Partnerships',
+      'desc': 'Selected ecosystem partners may integrate \$DEGO into community campaigns and experiences.',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text('⚡ ', style: TextStyle(fontSize: 22)),
+            Text(
+              'Token Utility',
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                color: kTextDark,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'Designed to support participation within the ecosystem rather than relying solely on speculation.',
+          style: GoogleFonts.inter(fontSize: 14, color: kTextMuted),
+        ),
+        const SizedBox(height: 24),
+        isWide
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _utilities
+                    .map(
+                      (u) => Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 6),
+                          child: _UtilityCard(
+                            icon: u['icon']!,
+                            title: u['title']!,
+                            desc: u['desc']!,
+                          ),
+                        ),
+                      ),
+                    )
+                    .toList(),
+              )
+            : Column(
+                children: _utilities
+                    .map(
+                      (u) => Padding(
+                        padding: const EdgeInsets.only(bottom: 14),
+                        child: _UtilityCard(
+                          icon: u['icon']!,
+                          title: u['title']!,
+                          desc: u['desc']!,
+                        ),
+                      ),
+                    )
+                    .toList(),
+              ),
+      ],
+    );
+  }
+}
+
+class _UtilityCard extends StatelessWidget {
+  final String icon;
+  final String title;
+  final String desc;
+
+  const _UtilityCard({
+    required this.icon,
+    required this.title,
+    required this.desc,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: kWhite,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: kBorderColor),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(icon, style: const TextStyle(fontSize: 24)),
+          const SizedBox(height: 12),
+          Text(
+            title,
+            style: GoogleFonts.inter(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: kTextDark,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            desc,
+            style: GoogleFonts.inter(
+              fontSize: 12,
+              color: kTextMuted,
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TokenomicsSection extends StatelessWidget {
+  final bool isWide;
+  const _TokenomicsSection({required this.isWide});
+
+  static const _allocations = [
+    {'name': 'Community', 'pct': '30%', 'purpose': 'Community initiatives & rewards', 'color': 0xFF7C3AED},
+    {'name': 'Liquidity', 'pct': '20%', 'purpose': 'Initial & future liquidity', 'color': 0xFF0284C7},
+    {'name': 'Ecosystem', 'pct': '20%', 'purpose': 'Products & development', 'color': 0xFF059669},
+    {'name': 'Marketing', 'pct': '10%', 'purpose': 'Global awareness & campaigns', 'color': 0xFFC026D3},
+    {'name': 'Treasury', 'pct': '10%', 'purpose': 'Long-term ecosystem reserve', 'color': 0xFF9333EA},
+    {'name': 'Team', 'pct': '5%', 'purpose': 'Core contributors (vested)', 'color': 0xFFDC2626},
+    {'name': 'Partnerships', 'pct': '5%', 'purpose': 'Strategic ecosystem growth', 'color': 0xFF6366F1},
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Text('🪙 ', style: TextStyle(fontSize: 22)),
+            Text(
+              'Tokenomics',
+              style: GoogleFonts.inter(
+                fontSize: 24,
+                fontWeight: FontWeight.w800,
+                color: kTextDark,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Text(
+          'Built for Long-Term Ecosystem Development (Total: 100%)',
+          style: GoogleFonts.inter(fontSize: 14, color: kPurpleDark, fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(height: 24),
+
+        // Visual Progress Bar
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: SizedBox(
+            height: 16,
+            child: Row(
+              children: _allocations
+                  .map(
+                    (a) => Expanded(
+                      flex: int.parse((a['pct'] as String).replaceAll('%', '')),
+                      child: Container(color: Color(a['color'] as int)),
+                    ),
+                  )
+                  .toList(),
+            ),
+          ),
+        ),
+        const SizedBox(height: 24),
+
+        // Breakdown items
+        isWide
+            ? GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                  childAspectRatio: 2.2,
+                ),
+                itemCount: _allocations.length,
+                itemBuilder: (context, i) => _TokenomicsCard(a: _allocations[i]),
+              )
+            : Column(
+                children: _allocations
+                    .map(
+                      (a) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _TokenomicsCard(a: a),
+                      ),
+                    )
+                    .toList(),
+              ),
+      ],
+    );
+  }
+}
+
+class _TokenomicsCard extends StatelessWidget {
+  final Map<String, dynamic> a;
+  const _TokenomicsCard({required this.a});
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Color(a['color'] as int);
+
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: kWhite,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.35)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.02),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            height: 36,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      a['name'] as String,
+                      style: GoogleFonts.inter(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: kTextDark,
+                      ),
+                    ),
+                    Text(
+                      a['pct'] as String,
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        color: color,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  a['purpose'] as String,
+                  style: GoogleFonts.inter(fontSize: 11, color: kTextMuted),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

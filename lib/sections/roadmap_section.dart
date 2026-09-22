@@ -8,23 +8,63 @@ class RoadmapSection extends StatelessWidget {
   static const _phases = [
     {
       'num': '01',
-      'title': 'Dose 01\nBirth',
-      'desc': 'Launch, build the foundation, grow the community.',
+      'title': 'PHASE 01\nTHE BEGINNING',
+      'subtitle': 'Foundation',
+      'goal': '🐭 Goal: Create the foundation.',
+      'items': [
+        'DEGOPLAY brand creation',
+        'Website launch',
+        'Community channels & presence',
+        'Token development & deployment',
+        'Smart contract verification',
+        'Initial community campaigns',
+        'Whitepaper release',
+      ],
+      'active': true,
     },
     {
       'num': '02',
-      'title': 'Dose 02\nCommunity',
-      'desc': 'More members, more voices, more DANA.',
+      'title': 'PHASE 02\nCOMMUNITY',
+      'subtitle': 'Build the Family',
+      'goal': '🌍 Goal: Turn followers into an active community.',
+      'items': [
+        'Community events & X Spaces',
+        'Creative campaigns & contests',
+        'Memes and digital content hub',
+        'Contributor & ambassador program',
+        'Web3 community partnerships',
+      ],
+      'active': false,
     },
     {
       'num': '03',
-      'title': 'Dose 03\nGrowth',
-      'desc': 'Listings, partnerships, more utility, bigger visibility.',
+      'title': 'PHASE 03\nECOSYSTEM',
+      'subtitle': 'Build the DEGOPLAY World',
+      'goal': '🚀 Goal: Give the community something to use.',
+      'items': [
+        'DEGOPLAY ecosystem portal',
+        'Community dashboard',
+        'Token utility features',
+        'Digital collectibles & NFTs',
+        'Community reward system',
+        'Partner integrations & tools',
+      ],
+      'active': false,
     },
     {
       'num': '04',
-      'title': 'Dose 04\nGlobal Dose',
-      'desc': 'Take DANA worldwide. Become a recognized crypto brand.',
+      'title': 'PHASE 04\nEXPANSION',
+      'subtitle': 'Africa → Global',
+      'goal': '🌎 Goal: Take DEGOPLAY into a global Web3 brand.',
+      'items': [
+        'International community expansion',
+        'Major ecosystem partnerships',
+        'Additional blockchain integrations',
+        'Developer & community grants',
+        'Global campaigns & initiatives',
+        'New DEGOPLAY products',
+      ],
+      'active': false,
     },
   ];
 
@@ -34,7 +74,7 @@ class RoadmapSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: kBlack,
+      color: kWhite,
       padding: EdgeInsets.symmetric(
         horizontal: isWide ? 60 : 24,
         vertical: 80,
@@ -42,25 +82,58 @@ class RoadmapSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          sectionLabel('ROADMAP'),
+          yellowDivider(),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Development Roadmap',
+                      style: headingStyle(size: 36),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Concrete targets for building a sustainable, long-term Web3 ecosystem.',
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        color: kTextMuted,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 48),
+
+          // Phase Cards
           isWide
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 280,
-                      child: _RoadmapLeft(),
-                    ),
-                    const SizedBox(width: 48),
-                    Expanded(child: _PhaseCards(phases: _phases)),
-                  ],
+                  children: _phases
+                      .map(
+                        (p) => Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: _PhaseCard(phase: p),
+                          ),
+                        ),
+                      )
+                      .toList(),
                 )
               : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _RoadmapLeft(),
-                    const SizedBox(height: 40),
-                    _PhaseCards(phases: _phases),
-                  ],
+                  children: _phases
+                      .map(
+                        (p) => Padding(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          child: _PhaseCard(phase: p),
+                        ),
+                      )
+                      .toList(),
                 ),
         ],
       ),
@@ -68,82 +141,9 @@ class RoadmapSection extends StatelessWidget {
   }
 }
 
-class _RoadmapLeft extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        sectionLabel('Roadmap'),
-        yellowDivider(),
-        Text(
-          'The Journey\nAhead.',
-          style: headingStyle(size: 36),
-        ),
-        const SizedBox(height: 16),
-        Text(
-          "We're just getting started. Here's how we're building the DANA movement, step by step.",
-          style: bodyStyle(),
-        ),
-      ],
-    );
-  }
-}
-
-class _PhaseCards extends StatelessWidget {
-  final List<Map<String, String>> phases;
-  const _PhaseCards({required this.phases});
-
-  @override
-  Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 700;
-    return isWide
-        ? Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: phases
-                .asMap()
-                .entries
-                .map((e) => Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: e.key == 0 ? 0 : 12,
-                        ),
-                        child: _PhaseCard(
-                          data: e.value,
-                          index: e.key,
-                          isActive: e.key == 0,
-                        ),
-                      ),
-                    ))
-                .toList(),
-          )
-        : Column(
-            children: phases
-                .asMap()
-                .entries
-                .map((e) => Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
-                      child: _PhaseCard(
-                        data: e.value,
-                        index: e.key,
-                        isActive: e.key == 0,
-                      ),
-                    ))
-                .toList(),
-          );
-  }
-}
-
 class _PhaseCard extends StatefulWidget {
-  final Map<String, String> data;
-  final int index;
-  final bool isActive;
-
-  const _PhaseCard({
-    required this.data,
-    required this.index,
-    required this.isActive,
-  });
+  final Map<String, dynamic> phase;
+  const _PhaseCard({required this.phase});
 
   @override
   State<_PhaseCard> createState() => _PhaseCardState();
@@ -154,61 +154,131 @@ class _PhaseCardState extends State<_PhaseCard> {
 
   @override
   Widget build(BuildContext context) {
-    final active = widget.isActive || _hovered;
+    final bool isActive = widget.phase['active'] as bool;
+    final items = widget.phase['items'] as List<String>;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(22),
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: active ? kYellow.withOpacity(0.08) : kDarkGray,
-          borderRadius: BorderRadius.circular(14),
+          color: _hovered ? kWhite : kOffWhite,
+          borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: active ? kYellow.withOpacity(0.5) : Colors.white.withOpacity(0.07),
-            width: active ? 1.5 : 1,
+            color: isActive
+                ? kPurple
+                : (_hovered ? kPurpleLight : kBorderColor),
+            width: isActive ? 1.8 : 1.0,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: isActive
+                  ? kPurple.withOpacity(0.12)
+                  : (_hovered ? Colors.black.withOpacity(0.06) : Colors.black.withOpacity(0.02)),
+              blurRadius: _hovered || isActive ? 18 : 6,
+              offset: Offset(0, _hovered || isActive ? 6 : 2),
+            ),
+          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Phase number badge
-            Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                color: kYellow,
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: Center(
-                child: Text(
-                  widget.data['num']!,
+            // Header Row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  widget.phase['num'] as String,
                   style: GoogleFonts.inter(
-                    fontSize: 11,
+                    fontSize: 28,
                     fontWeight: FontWeight.w900,
-                    color: kBlack,
+                    color: isActive ? kPurple : Colors.black26,
                   ),
                 ),
-              ),
+                if (isActive)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: kPurpleSoft,
+                      borderRadius: BorderRadius.circular(6),
+                      border: Border.all(color: kPurpleLight),
+                    ),
+                    child: Text(
+                      'IN PROGRESS',
+                      style: GoogleFonts.inter(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: kPurpleDark,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ),
+              ],
             ),
             const SizedBox(height: 14),
+
+            // Phase Title
             Text(
-              widget.data['title']!,
+              widget.phase['title'] as String,
               style: GoogleFonts.inter(
-                fontSize: 15,
+                fontSize: 17,
                 fontWeight: FontWeight.w800,
-                color: kWhite,
+                color: kTextDark,
                 height: 1.3,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 4),
             Text(
-              widget.data['desc']!,
+              widget.phase['subtitle'] as String,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: kPurpleDark,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Divider(color: kBorderColor),
+            const SizedBox(height: 12),
+
+            // Items
+            ...items.map(
+              (item) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '• ',
+                      style: TextStyle(color: isActive ? kPurple : Colors.black38),
+                    ),
+                    Expanded(
+                      child: Text(
+                        item,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: kTextMuted,
+                          height: 1.4,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 14),
+            Divider(color: kBorderColor),
+            const SizedBox(height: 8),
+
+            // Goal
+            Text(
+              widget.phase['goal'] as String,
               style: GoogleFonts.inter(
                 fontSize: 12,
-                color: Colors.white54,
-                height: 1.5,
+                fontWeight: FontWeight.w700,
+                color: isActive ? kPurpleDark : kTextMuted,
               ),
             ),
           ],

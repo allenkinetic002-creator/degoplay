@@ -5,26 +5,48 @@ import '../theme.dart';
 class CultureSection extends StatelessWidget {
   const CultureSection({super.key});
 
-  static const _pillars = [
+  static const _layers = [
     {
-      'image': 'assets/images/kodak.png',
-      'title': 'Network',
-      'desc': 'Real connections.\nWorldwide presence.',
+      'icon': '🐭',
+      'title': 'DEGOPLAY',
+      'badge': 'CORE',
+      'desc': 'The central brand and community uniting players, creators, and believers worldwide.',
+      'color': 0xFF7C3AED,
     },
     {
-      'image': 'assets/images/kodak1.png',
-      'title': 'Humor',
-      'desc': 'Great energy.\nEndless laughter.',
+      'icon': '🪙',
+      'title': '\$DEGO',
+      'badge': 'TOKEN',
+      'desc': 'The native ecosystem token powering access, rewards, and on-chain participation.',
+      'color': 0xFF9333EA,
     },
     {
-      'image': 'assets/images/kodak2.png',
-      'title': 'Expression',
-      'desc': 'Imagination. Ideas.\nInspiration.',
+      'icon': '👥',
+      'title': 'DEGOPLAY FAM',
+      'badge': 'COMMUNITY',
+      'desc': 'Our passionate global community bringing together creators, builders, traders, and enthusiasts.',
+      'color': 0xFF0284C7,
     },
     {
-      'image': 'assets/images/kodak3.png',
-      'title': 'Engagement',
-      'desc': 'Everyone has a role\nto play.',
+      'icon': '🎨',
+      'title': 'DEGOPLAY CREATIVE',
+      'badge': 'CULTURE',
+      'desc': 'Community art, memes, character lore, interactive media, and digital culture.',
+      'color': 0xFFC026D3,
+    },
+    {
+      'icon': '🛠️',
+      'title': 'DEGOPLAY LABS',
+      'badge': 'PRODUCTS',
+      'desc': 'Future decentralized products, games, utility tools, and Web3 experiments.',
+      'color': 0xFF059669,
+    },
+    {
+      'icon': '🌍',
+      'title': 'DEGOPLAY AFRICA',
+      'badge': 'INITIATIVE',
+      'desc': 'Community initiatives connecting African builders and local Web3 hubs with the wider world.',
+      'color': 0xFFEA580C,
     },
   ];
 
@@ -34,197 +56,171 @@ class CultureSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFF0D0D0D),
+      color: kWhite,
       padding: EdgeInsets.symmetric(
         horizontal: isWide ? 60 : 24,
         vertical: 80,
       ),
-      child: isWide
-          ? Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(flex: 4, child: _CultureLeft()),
-                const SizedBox(width: 60),
-                Expanded(
-                  flex: 6,
-                  child: _PillarGrid(pillars: _pillars),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          sectionLabel('THE ECOSYSTEM'),
+          yellowDivider(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'The DEGOPLAY Ecosystem',
+                      style: headingStyle(size: 36),
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'DEGOPLAY is designed to grow in layers — starting with strong community culture and expanding into digital experiences, products, and global initiatives.',
+                      style: GoogleFonts.inter(
+                        fontSize: 15,
+                        color: kTextMuted,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _CultureLeft(),
-                const SizedBox(height: 48),
-                _PillarGrid(pillars: _pillars),
-              ],
-            ),
-    );
-  }
-}
-
-class _CultureLeft extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        // F- Character illustration behind text
-        Positioned(
-          right: -20,
-          top: -10,
-          bottom: -20,
-          child: IgnorePointer(
-            child: Opacity(
-              opacity: 0.22,
-              child: Image.asset(
-                'assets/images/f_minus.png',
-                fit: BoxFit.contain,
               ),
-            ),
+            ],
           ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            sectionLabel('The DANA Culture'),
-            yellowDivider(),
-            Text(
-              'Built by People.\nPowered by Community.',
-              style: headingStyle(size: 36),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              'DANA is more than a token — it\'s a culture. We\'re here for the memes, the creativity, and the people who make it all happen.',
-              style: bodyStyle(),
-            ),
-          ],
-        ),
-      ],
+          const SizedBox(height: 48),
+
+          // Layer Grid
+          _LayerGrid(layers: _layers, isWide: isWide),
+        ],
+      ),
     );
   }
 }
 
-class _PillarGrid extends StatelessWidget {
-  final List<Map<String, String>> pillars;
-  const _PillarGrid({required this.pillars});
+class _LayerGrid extends StatelessWidget {
+  final List<Map<String, dynamic>> layers;
+  final bool isWide;
+
+  const _LayerGrid({required this.layers, required this.isWide});
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final int crossAxisCount = width > 950 ? 4 : (width > 550 ? 2 : 1);
-    final double aspectRatio = width > 950 ? 0.72 : (width > 550 ? 0.9 : 1.2);
-    return GridView.count(
-      crossAxisCount: crossAxisCount,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      mainAxisSpacing: 16,
-      crossAxisSpacing: 16,
-      childAspectRatio: aspectRatio,
-      children: pillars.map((p) => _PillarCard(p)).toList(),
-    );
+    if (isWide) {
+      return GridView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: 24,
+          mainAxisSpacing: 24,
+          childAspectRatio: 1.45,
+        ),
+        itemCount: layers.length,
+        itemBuilder: (context, index) => _LayerCard(layer: layers[index]),
+      );
+    } else {
+      return Column(
+        children: layers
+            .map(
+              (l) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _LayerCard(layer: l),
+              ),
+            )
+            .toList(),
+      );
+    }
   }
 }
 
-class _PillarCard extends StatefulWidget {
-  final Map<String, String> data;
-  const _PillarCard(this.data);
+class _LayerCard extends StatefulWidget {
+  final Map<String, dynamic> layer;
+  const _LayerCard({required this.layer});
 
   @override
-  State<_PillarCard> createState() => _PillarCardState();
+  State<_LayerCard> createState() => _LayerCardState();
 }
 
-class _PillarCardState extends State<_PillarCard> {
+class _LayerCardState extends State<_LayerCard> {
   bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
+    final color = Color(widget.layer['color'] as int);
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedScale(
-        scale: _hovered ? 1.04 : 1.0,
+      child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-            color: const Color(0xFF161616),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: _hovered
-                  ? kYellow.withOpacity(0.5)
-                  : Colors.white.withOpacity(0.06),
-              width: _hovered ? 2 : 1,
-            ),
-            boxShadow: _hovered
-                ? [
-                    BoxShadow(
-                      color: kYellow.withOpacity(0.15),
-                      blurRadius: 20,
-                      spreadRadius: 2,
-                    ),
-                  ]
-                : [],
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: _hovered ? kWhite : kOffWhite,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: _hovered ? color.withOpacity(0.6) : kBorderColor,
+            width: _hovered ? 1.5 : 1.0,
           ),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: Column(
+          boxShadow: [
+            BoxShadow(
+              color: _hovered ? color.withOpacity(0.15) : Colors.black.withOpacity(0.03),
+              blurRadius: _hovered ? 20 : 8,
+              offset: Offset(0, _hovered ? 8 : 2),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Image fills the top portion
-                Expanded(
-                  flex: 3,
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Image.asset(
-                      widget.data['image']!,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                // Title & description at the bottom
+                Text(widget.layer['icon'] as String, style: const TextStyle(fontSize: 32)),
                 Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 12,
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: color.withOpacity(0.4)),
                   ),
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xFF1A1A1A),
-                        Color(0xFF111111),
-                      ],
+                  child: Text(
+                    widget.layer['badge'] as String,
+                    style: GoogleFonts.inter(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w700,
+                      color: color,
+                      letterSpacing: 1.0,
                     ),
-                  ),
-                  child: Column(
-                    children: [
-                      Text(
-                        widget.data['title']!,
-                        style: GoogleFonts.inter(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: kYellow,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        widget.data['desc']!,
-                        style: GoogleFonts.inter(
-                          fontSize: 11,
-                          color: Colors.white54,
-                          height: 1.4,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
                   ),
                 ),
               ],
             ),
-          ),
+            const SizedBox(height: 14),
+            Text(
+              widget.layer['title'] as String,
+              style: GoogleFonts.inter(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: kTextDark,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              widget.layer['desc'] as String,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                color: kTextMuted,
+                height: 1.5,
+              ),
+            ),
+          ],
         ),
       ),
     );

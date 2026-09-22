@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'theme.dart';
 import 'sections/navbar.dart';
 import 'sections/hero_section.dart';
 import 'sections/vision_section.dart';
@@ -19,15 +20,16 @@ class DanaApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'DANA Coin – A Dose of Crypto Culture',
+      title: 'DEGOPLAY — From Africa to the World. 🌍🐭',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.dark(
-          primary: const Color(0xFFFFD700),
-          surface: const Color(0xFF0D0D0D),
+        brightness: Brightness.light,
+        colorScheme: ColorScheme.light(
+          primary: kPurple,
+          surface: kWhite,
         ),
-        textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
-        scaffoldBackgroundColor: const Color(0xFF0D0D0D),
+        textTheme: GoogleFonts.interTextTheme(ThemeData.light().textTheme),
+        scaffoldBackgroundColor: kWhite,
       ),
       home: const DanaHomePage(),
     );
@@ -73,7 +75,7 @@ class _DanaHomePageState extends State<DanaHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0D),
+      backgroundColor: kWhite,
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -81,7 +83,7 @@ class _DanaHomePageState extends State<DanaHomePage> {
             child: Column(
               children: [
                 const SizedBox(height: 70),
-                const HeroSection(),
+                HeroSection(onExploreTap: () => scrollToSection(750.0)),
                 const VisionSection(),
                 const CultureSection(),
                 const TokenSection(),

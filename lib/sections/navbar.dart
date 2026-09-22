@@ -13,49 +13,47 @@ class NavBar extends StatefulWidget {
 }
 
 class _NavBarState extends State<NavBar> {
-  final bool _isScrolled = false;
   String _active = 'Home';
 
   final List<Map<String, dynamic>> _navItems = [
     {'label': 'Home', 'offset': 0.0},
-    {'label': 'About', 'offset': 700.0},
-    {'label': 'Token', 'offset': 1400.0},
-    {'label': 'Roadmap', 'offset': 2000.0},
-    {'label': 'Community', 'offset': 2600.0},
+    {'label': 'About', 'offset': 750.0},
+    {'label': 'Ecosystem', 'offset': 1550.0},
+    {'label': 'Token', 'offset': 2300.0},
+    {'label': 'Roadmap', 'offset': 3450.0},
+    {'label': 'Community', 'offset': 4300.0},
+    {'label': 'FAQ', 'offset': 5300.0},
   ];
 
   @override
   Widget build(BuildContext context) {
-    final isWide = MediaQuery.of(context).size.width > 900;
+    final isWide = MediaQuery.of(context).size.width > 960;
 
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         height: 70,
         decoration: BoxDecoration(
-          color: _isScrolled
-              ? kBlack.withOpacity(0.95)
-              : kBlack.withOpacity(0.85),
-          border: Border(
+          color: kWhite.withOpacity(0.96),
+          border: const Border(
             bottom: BorderSide(
-              color: Colors.white.withOpacity(0.07),
+              color: kBorderColor,
               width: 1,
             ),
           ),
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: isWide ? 60 : 20,
+            horizontal: isWide ? 50 : 16,
           ),
           child: Row(
             children: [
               // Logo
-              _DanaLogo(onTap: () => widget.onNavTap(0.0)),
+              _BrandLogo(onTap: () => widget.onNavTap(0.0)),
               const Spacer(),
-              // Nav links (hide on mobile)
+              // Nav links (desktop)
               if (isWide) ...[
                 ...(_navItems.map((item) => _NavLink(
                       label: item['label'],
@@ -65,37 +63,26 @@ class _NavBarState extends State<NavBar> {
                         widget.onNavTap(item['offset']);
                       },
                     ))),
-                const SizedBox(width: 24),
+                const SizedBox(width: 16),
                 // Social icons
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () => openUrl('https://t.me/SCF_Degens'),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/telegram.png', width: 22, height: 22, fit: BoxFit.contain, color: Colors.white60),
-                    ),
-                  ),
+                _SocialIconBtn(
+                  asset: 'assets/images/telegram.png',
+                  onTap: () => openUrl('https://t.co/GMgJniaUhy'),
                 ),
                 const SizedBox(width: 4),
-                _XIconBtn(
-                  onTap: () => openUrl('https://x.com/ardanadose'),
+                _SocialIconBtn(
+                  asset: 'assets/images/x.png',
+                  onTap: () => openUrl('https://x.com/DegoPlaay'),
                 ),
                 const SizedBox(width: 4),
-                MouseRegion(
-                  cursor: SystemMouseCursors.click,
-                  child: GestureDetector(
-                    onTap: () => openUrl('https://chat.whatsapp.com/Gpd3q6d02FwIkFM1FOCf7W'),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset('assets/images/whatsapp.png', width: 22, height: 22, fit: BoxFit.contain, color: Colors.white60),
-                    ),
-                  ),
+                _SocialIconBtn(
+                  asset: 'assets/images/whatsapp.png',
+                  onTap: () => openUrl('https://t.co/GMgJniaUhy'),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
               ],
-              // Buy button
-              _BuyButton(),
+              // Join Community / Buy $DEGO
+              _NavActionButtons(),
             ],
           ),
         ),
@@ -104,9 +91,9 @@ class _NavBarState extends State<NavBar> {
   }
 }
 
-class _DanaLogo extends StatelessWidget {
+class _BrandLogo extends StatelessWidget {
   final VoidCallback? onTap;
-  const _DanaLogo({this.onTap});
+  const _BrandLogo({this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -145,34 +132,22 @@ class _NavLinkState extends State<_NavLink> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
         onTap: widget.onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                widget.label,
-                style: GoogleFonts.inter(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: widget.isActive || _hovered ? kYellow : Colors.white70,
-                ),
-              ),
-              const SizedBox(height: 4),
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                height: 2,
-                width: widget.isActive ? 20 : 0,
-                decoration: BoxDecoration(
-                  color: kYellow,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ],
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 8),
+          child: Text(
+            widget.label,
+            style: GoogleFonts.inter(
+              fontSize: 13,
+              fontWeight: widget.isActive ? FontWeight.w700 : FontWeight.w500,
+              color: widget.isActive
+                  ? kPurple
+                  : (_hovered ? kTextDark : kTextMuted),
+            ),
           ),
         ),
       ),
@@ -180,30 +155,16 @@ class _NavLinkState extends State<_NavLink> {
   }
 }
 
-class _IconBtn extends StatelessWidget {
-  final IconData icon;
+class _SocialIconBtn extends StatefulWidget {
+  final String asset;
   final VoidCallback onTap;
-
-  const _IconBtn({required this.icon, required this.onTap});
+  const _SocialIconBtn({required this.asset, required this.onTap});
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Icon(icon, color: Colors.white60, size: 22),
-    );
-  }
+  State<_SocialIconBtn> createState() => _SocialIconBtnState();
 }
 
-class _XIconBtn extends StatefulWidget {
-  final VoidCallback onTap;
-  const _XIconBtn({required this.onTap});
-
-  @override
-  State<_XIconBtn> createState() => _XIconBtnState();
-}
-
-class _XIconBtnState extends State<_XIconBtn> {
+class _SocialIconBtnState extends State<_SocialIconBtn> {
   bool _hovered = false;
 
   @override
@@ -217,11 +178,9 @@ class _XIconBtnState extends State<_XIconBtn> {
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 150),
           opacity: _hovered ? 1.0 : 0.65,
-          child: Image.asset(
-            'assets/images/x.png',
-            width: 22,
-            height: 22,
-            fit: BoxFit.contain,
+          child: Padding(
+            padding: const EdgeInsets.all(6.0),
+            child: Image.asset(widget.asset, width: 20, height: 20, fit: BoxFit.contain),
           ),
         ),
       ),
@@ -229,12 +188,12 @@ class _XIconBtnState extends State<_XIconBtn> {
   }
 }
 
-class _BuyButton extends StatefulWidget {
+class _NavActionButtons extends StatefulWidget {
   @override
-  State<_BuyButton> createState() => _BuyButtonState();
+  State<_NavActionButtons> createState() => _NavActionButtonsState();
 }
 
-class _BuyButtonState extends State<_BuyButton> {
+class _NavActionButtonsState extends State<_NavActionButtons> {
   bool _hovered = false;
 
   @override
@@ -244,21 +203,35 @@ class _BuyButtonState extends State<_BuyButton> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTap: () => openUrl('https://dexscreener.com/bsc/0xf471d46afdc6b29726d6e32e81b6ccc604f48129'),
+        onTap: () => openUrl('https://dexscreener.com/bsc/0xad9684bc26780176fcb39b0d6749904a5dc2f3dc'),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          duration: const Duration(milliseconds: 180),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
           decoration: BoxDecoration(
-            color: _hovered ? Colors.amber : kYellow,
+            color: _hovered ? kPurpleDark : kPurple,
             borderRadius: BorderRadius.circular(8),
+            boxShadow: [
+              BoxShadow(
+                color: kPurple.withOpacity(0.35),
+                blurRadius: 14,
+                offset: const Offset(0, 4),
+              ),
+            ],
           ),
-          child: Text(
-            'Buy \$DANA',
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-              color: kBlack,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Buy \$DEGO',
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                ),
+              ),
+              const SizedBox(width: 4),
+              const Icon(Icons.arrow_forward_rounded, size: 14, color: Colors.white),
+            ],
           ),
         ),
       ),

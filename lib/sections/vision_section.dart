@@ -12,7 +12,7 @@ class VisionSection extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      color: const Color(0xFF111111),
+      color: kOffWhite,
       padding: EdgeInsets.symmetric(
         horizontal: isWide ? 60 : 24,
         vertical: 80,
@@ -21,48 +21,99 @@ class VisionSection extends StatelessWidget {
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(flex: 5, child: _LeftVision()),
-                const SizedBox(width: 60),
-                Expanded(flex: 5, child: _RightVision()),
+                Expanded(flex: 5, child: _AboutLeft()),
+                const SizedBox(width: 50),
+                Expanded(flex: 5, child: _AboutRight()),
               ],
             )
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _LeftVision(),
+                _AboutLeft(),
                 const SizedBox(height: 48),
-                _RightVision(),
+                _AboutRight(),
               ],
             ),
     );
   }
 }
 
-class _LeftVision extends StatelessWidget {
+class _AboutLeft extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionLabel('Our Vision'),
+        sectionLabel('ABOUT DEGOPLAY'),
         yellowDivider(),
         Text(
-          'A Global Community\nDriven by Culture.',
-          style: headingStyle(size: 38),
+          'What is DEGOPLAY?',
+          style: headingStyle(size: 36),
         ),
         const SizedBox(height: 20),
         Text(
-          'Our vision is to make DANA a global community-driven crypto brand built around culture, creativity, and participation — where everyone gets a dose of DANA.',
-          style: bodyStyle(),
+          'DEGOPLAY is a community-focused Web3 project created to bring people together around digital culture, entertainment, blockchain technology, and decentralized communities.',
+          style: GoogleFonts.inter(
+            fontSize: 15,
+            color: kTextMuted,
+            height: 1.7,
+          ),
         ),
-        const SizedBox(height: 32),
-        Row(
-          children: [
-            _TagChip('CULTURE'),
-            const SizedBox(width: 8),
-            _TagChip('CREATIVITY'),
-            const SizedBox(width: 8),
+        const SizedBox(height: 16),
+        Text(
+          'The project aims to build more than a token. DEGOPLAY is designed as an ecosystem where community members can participate, create, connect, and contribute.',
+          style: GoogleFonts.inter(
+            fontSize: 15,
+            color: kTextMuted,
+            height: 1.7,
+          ),
+        ),
+        const SizedBox(height: 20),
+
+        // Philosophy highlight box
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+          decoration: BoxDecoration(
+            color: kPurpleSoft,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: kPurple.withOpacity(0.35)),
+          ),
+          child: Row(
+            children: [
+              const Text('💡 ', style: TextStyle(fontSize: 20)),
+              Expanded(
+                child: Text(
+                  'Our philosophy is simple: Build together. Grow together.',
+                  style: GoogleFonts.inter(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: kPurpleDark,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'DEGOPLAY starts with community and gradually expands into products, partnerships, digital experiences, and other Web3 initiatives.',
+          style: GoogleFonts.inter(
+            fontSize: 14,
+            color: kTextMuted,
+            height: 1.6,
+          ),
+        ),
+        const SizedBox(height: 28),
+
+        // Tags
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          children: const [
             _TagChip('COMMUNITY'),
+            _TagChip('CULTURE'),
+            _TagChip('WEB3 ECOSYSTEM'),
+            _TagChip('AFRICA TO WORLD'),
           ],
         ),
       ],
@@ -70,46 +121,118 @@ class _LeftVision extends StatelessWidget {
   }
 }
 
-class _RightVision extends StatelessWidget {
+class _AboutRight extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(36),
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
-        color: kDarkGray,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withOpacity(0.06)),
+        color: kWhite,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: kBorderColor),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                sectionLabel('What is DANA?'),
-                const SizedBox(height: 12),
-                Text(
-                  'More Than a Token.',
-                  style: headingStyle(size: 28),
+          // Vision Section
+          Row(
+            children: [
+              const Text('🌍 ', style: TextStyle(fontSize: 22)),
+              Text(
+                'Our Vision',
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: kTextDark,
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  'DANA is a community-powered token on BNB Chain created to bring people together around a simple idea: everyone needs a dose of DANA.',
-                  style: bodyStyle(size: 15),
-                ),
-                const SizedBox(height: 24),
-                _DoseUpBadge(),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'To create a globally recognized African-born Web3 brand that connects communities across borders.',
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              color: kTextMuted,
+              height: 1.6,
             ),
           ),
-          const SizedBox(width: 20),
-          SizedBox(
-            width: 240,
-            height: 260,
-            child: Image.asset(
-              'assets/images/ed.png',
-              fit: BoxFit.contain,
+          const Divider(color: kBorderColor, height: 32),
+
+          // Mission Section
+          Row(
+            children: [
+              const Text('🚀 ', style: TextStyle(fontSize: 22)),
+              Text(
+                'Our Mission',
+                style: GoogleFonts.inter(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                  color: kTextDark,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          _MissionItem('Build an active and welcoming community.'),
+          _MissionItem('Create useful Web3 products and experiences.'),
+          _MissionItem('Encourage creativity and participation.'),
+          _MissionItem('Develop a recognizable global brand.'),
+          _MissionItem('Make the ecosystem increasingly useful over time.'),
+
+          const SizedBox(height: 24),
+
+          // Visual Bottom: Mascot & Dose Up Badge
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: SizedBox(
+                  height: 180,
+                  child: Image.asset(
+                    'assets/images/ed.png',
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              _DoseUpBadge(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MissionItem extends StatelessWidget {
+  final String text;
+  const _MissionItem(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 6, right: 10),
+            width: 6,
+            height: 6,
+            decoration: const BoxDecoration(
+              color: kPurple,
+              shape: BoxShape.circle,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                color: kTextMuted,
+                height: 1.5,
+              ),
             ),
           ),
         ],
@@ -124,13 +247,21 @@ class _TagChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: GoogleFonts.inter(
-        fontSize: 11,
-        fontWeight: FontWeight.w600,
-        color: Colors.white38,
-        letterSpacing: 1.5,
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: kPurpleSoft,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: kPurple.withOpacity(0.25)),
+      ),
+      child: Text(
+        label,
+        style: GoogleFonts.inter(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: kPurpleDark,
+          letterSpacing: 1.2,
+        ),
       ),
     );
   }
@@ -151,9 +282,9 @@ class _DoseUpBadgeState extends State<_DoseUpBadge> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTap: () => openUrl('https://dexscreener.com/bsc/0xf471d46afdc6b29726d6e32e81b6ccc604f48129'),
+        onTap: () => openUrl('https://dexscreener.com/bsc/0xad9684bc26780176fcb39b0d6749904a5dc2f3dc'),
         child: AnimatedScale(
-          scale: _hovered ? 1.05 : 1.0,
+          scale: _hovered ? 1.06 : 1.0,
           duration: const Duration(milliseconds: 180),
           child: Container(
             decoration: BoxDecoration(
@@ -170,8 +301,8 @@ class _DoseUpBadgeState extends State<_DoseUpBadge> {
             ),
             child: Image.asset(
               'assets/images/dose_up.png',
-              width: 100,
-              height: 100,
+              width: 110,
+              height: 110,
               fit: BoxFit.contain,
             ),
           ),
