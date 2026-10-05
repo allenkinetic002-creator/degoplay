@@ -180,11 +180,11 @@ class _LeftContent extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // DEGOPLAY Hero Graphic Title
+          // Hero Graphic Title
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 370, maxHeight: 175),
+            constraints: const BoxConstraints(maxWidth: 440, maxHeight: 150),
             child: Image.asset(
-              'assets/images/dana4.png',
+              'assets/images/fa.png',
               fit: BoxFit.contain,
               alignment: Alignment.centerLeft,
             ),

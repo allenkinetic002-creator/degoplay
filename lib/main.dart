@@ -49,7 +49,7 @@ class _DanaHomePageState extends State<DanaHomePage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    precacheImage(const AssetImage('assets/images/dana4.png'), context);
+    precacheImage(const AssetImage('assets/images/fa.png'), context);
     precacheImage(const AssetImage('assets/images/dana_coin.jpg'), context);
     precacheImage(const AssetImage('assets/images/face.png'), context);
     precacheImage(const AssetImage('assets/images/bnb.png'), context);

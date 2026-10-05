@@ -38326,25 +38326,25 @@ ba(){var s,r=this
 r.d0()
 s=r.c
 s.toString
-A.tc(B.yc,s)
-s=r.c
-s.toString
 A.tc(B.y8,s)
 s=r.c
 s.toString
-A.tc(B.yb,s)
+A.tc(B.y9,s)
+s=r.c
+s.toString
+A.tc(B.yc,s)
 s=r.c
 s.toString
 A.tc(B.yd,s)
 s=r.c
 s.toString
-A.tc(B.ya,s)
+A.tc(B.yb,s)
 s=r.c
 s.toString
 A.tc(B.ye,s)
 s=r.c
 s.toString
-A.tc(B.y9,s)},
+A.tc(B.ya,s)},
 l(){this.d.l()
 this.aJ()},
 RA(a){this.d.hl(a,B.f0,B.c9)},
@@ -38653,7 +38653,7 @@ A.A5.prototype={
 a4_(a){A.aEc(new A.abt(),a,t.z)},
 G(a){var s,r,q,p,o=null,n=A.aI(31,B.v.v()>>>16&255,B.v.v()>>>8&255,B.v.v()&255),m=A.bK(20),l=A.cN(A.aI(B.c.aD(76.5),B.v.v()>>>16&255,B.v.v()>>>8&255,B.v.v()&255),1),k=t.p
 m=A.bB(o,A.bk(A.c([B.QO,A.aa("From Africa to the World.",o,A.au().$4$color$fontSize$fontWeight$letterSpacing(B.v,13,B.W,0.5),o)],k),B.u,B.l,B.aR),B.t,o,o,new A.bc(n,o,l,m,o,o,B.C),o,o,o,B.BJ,o,o,o)
-l=A.dC("assets/images/dana4.png",B.hq,B.ad,o,o)
+l=A.dC("assets/images/fa.png",B.hq,B.ad,o,o)
 n=A.aa("A community-driven Web3 ecosystem built around culture, creativity, entertainment, and decentralized participation.\n\nDEGOPLAY brings people together through community, digital culture, blockchain technology, and an ecosystem designed to grow with its members.",o,A.au().$3$color$fontSize$height(B.H,15,1.7),o)
 s=A.bK(8)
 r=A.cN(A.aI(64,B.v.v()>>>16&255,B.v.v()>>>8&255,B.v.v()&255),1)
@@ -73999,11 +73999,11 @@ B.eB=new A.h6(3,"hidden")
 B.hr=new A.h6(4,"paused")
 B.hs=new A.tC(0,"polite")
 B.ht=new A.tC(1,"assertive")
-B.y8=new A.fA("assets/images/dana_coin.jpg",null,null)
-B.y9=new A.fA("assets/images/whatsapp.png",null,null)
-B.ya=new A.fA("assets/images/x.png",null,null)
-B.yb=new A.fA("assets/images/face.png",null,null)
-B.yc=new A.fA("assets/images/dana4.png",null,null)
+B.y8=new A.fA("assets/images/fa.png",null,null)
+B.y9=new A.fA("assets/images/dana_coin.jpg",null,null)
+B.ya=new A.fA("assets/images/whatsapp.png",null,null)
+B.yb=new A.fA("assets/images/x.png",null,null)
+B.yc=new A.fA("assets/images/face.png",null,null)
 B.yd=new A.fA("assets/images/bnb.png",null,null)
 B.ye=new A.fA("assets/images/telegram.png",null,null)
 B.aM=new A.oO(0,"up")
@@ -74047,7 +74047,7 @@ B.jl=new A.GU(null)
 B.ys=new A.tL(B.JZ,B.jl)
 B.wc=new A.HT(1,"fast")
 B.yt=new A.tL(B.wc,B.jl)
-B.yu=new A.ak(0,370,0,175)
+B.yu=new A.ak(0,440,0,150)
 B.yv=new A.ak(0,620,0,560)
 B.yw=new A.ak(0,1/0,48,1/0)
 B.yx=new A.ak(280,1/0,0,1/0)
